@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>赛事列表</title>
+</head>
+<body>
+    <h1>所有赛事</h1>
+    {% for event in events %}
+        <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+            <h2>{{ event.title }}</h2>
+            <p>{{ event.description }}</p>
+            <p><strong>时间：</strong> {{ event.date }}</p>
+            <p><strong>地点：</strong> {{ event.location }}</p>
+        </div>
+    {% empty %}
+        <p>暂无赛事。</p>
+    {% endfor %}
+</body>
+</html>

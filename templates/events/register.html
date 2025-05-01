@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>赛事报名</title></head>
+<body>
+    <h1>报名表</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">提交报名</button>
+    </form>
+</body>
+</html>
