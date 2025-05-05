@@ -123,3 +123,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+import os  # 用于处理路径拼接
+
+# 设置用户上传文件的访问 URL 前缀，例如：/media/uploads/文件名.pdf
+MEDIA_URL = '/media/'
+
+# 设置用户上传文件实际保存在项目中的文件夹位置
+# 例如保存到：debate_service_website/media/uploads/文件名.pdf
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

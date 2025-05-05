@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head><title>{{ event.title }}</title></head>
+<body>
+    <h1>{{ event.title }}</h1>
+    <p>{{ event.description }}</p>
+    <p><strong>时间：</strong> {{ event.date }}</p>
+    <p><strong>地点：</strong> {{ event.location }}</p>
+
+    <a href="{% url 'register_specific' event.id %}">我要报名</a>
+</body>
+</html>

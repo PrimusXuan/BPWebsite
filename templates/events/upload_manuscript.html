@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head><title>上传辩论稿</title></head>
+<body>
+    <h1>📤 上传你的辩论稿件</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">提交稿件</button>
+    </form>
+</body>
+</html>

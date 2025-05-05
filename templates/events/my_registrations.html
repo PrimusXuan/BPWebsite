@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>我的报名</title></head>
+<body>
+    <h1>🎟 我的赛事报名记录</h1>
+
+    <form method="GET">
+        <label>请输入你的邮箱：</label>
+        <input type="email" name="email" value="{{ email }}">
+        <button type="submit">查询</button>
+    </form>
+
+    <hr>
+
+    {% if registrations %}
+        <ul>
+        {% for r in registrations %}
+            <li>
+                <strong>{{ r.event.title }}</strong><br>
+                报名时间：{{ r.registered_at }}<br>
+                报名人：{{ r.name }}（{{ r.email }}）
+            </li>
+        {% endfor %}
+        </ul>
+    {% elif email %}
+        <p>未查询到与 <strong>{{ email }}</strong> 相关的报名记录。</p>
+    {% endif %}
+</body>
+</html>

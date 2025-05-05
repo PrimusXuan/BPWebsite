@@ -16,37 +16,19 @@
 git clone https://github.com/PrimusXuan/BPWebsite
 cd 你的仓库名
 🧱 创建虚拟环境（只需第一次）
-bash
-Copy
-Edit
 python -m venv venv
 venv\Scripts\activate         # Windows
 # 或 source venv/bin/activate（Mac/Linux）
 📦 安装依赖
-bash
-Copy
-Edit
 pip install -r requirements.txt
 🗃 初始化数据库
-bash
-Copy
-Edit
 python manage.py migrate
 ▶️ 启动开发服务器
-bash
-Copy
-Edit
 python manage.py runserver
 打开浏览器访问：
 
-cpp
-Copy
-Edit
 http://127.0.0.1:8000/
 📁 项目结构简览
-bash
-Copy
-Edit
 debate_service_website/
 ├── debate_platform/     # 主项目设置
 ├── templates/           # 页面模板
