@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head><title>我的稿件</title></head>
+<body>
+    <h1>📄 查询我的稿件</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        <label>请输入你的邮箱：</label>
+        <input type="email" name="email" required>
+        <button type="submit">查询</button>
+    </form>
+
+    {% if manuscripts %}
+        <h2>以下是你提交过的稿件：</h2>
+        <ul>
+            {% for m in manuscripts %}
+                <li>
+                    <strong>服务类型：</strong> {{ m.get_service_type_display }}<br>
+                    <strong>提交时间：</strong> {{ m.submitted_at }}<br>
+                    <strong>处理状态：</strong> {{ m.is_reviewed|yesno:"✅ 已处理,⏳ 未处理" }}<br>
+                    <strong>反馈：</strong> {{ m.feedback|default:"（尚无反馈）" }}<br>
+                    <strong>文件下载：</strong> <a href="{{ m.file.url }}" download>下载</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif manuscripts is not None %}
+        <p>⚠ 没有找到与你邮箱相关的稿件记录。</p>
+    {% endif %}
+</body>
+</html>

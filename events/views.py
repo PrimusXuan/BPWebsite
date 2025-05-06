@@ -87,6 +87,21 @@ def upload_manuscript(request):
 def manuscript_success(request):
     return render(request, 'events/manuscript_success.html')
 
+# 👇 用户查看我的稿件视图：显示表单、接收邮箱、查询数据库、返回结果
+from .models import Manuscript
 
+# 👤 用户查看我的稿件视图
+def my_manuscripts(request):
+    manuscripts = None
+    email = ''
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        manuscripts = Manuscript.objects.filter(email=email)
+
+    return render(request, 'events/my_manuscripts.html', {
+        'manuscripts': manuscripts,
+        'email': email
+    })
 
 

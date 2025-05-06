@@ -41,6 +41,13 @@ class Manuscript(models.Model):
     file = models.FileField(upload_to='uploads/')
     service_type = models.CharField(max_length=10, choices=SERVICE_CHOICES)
     submitted_at = models.DateTimeField(auto_now_add=True)
+    
+    # 是否已处理（教练或 AI 批改状态），默认是 False（未处理）
+    is_reviewed = models.BooleanField(default=False)
+    # 教练或 AI 的反馈内容，可选字段（允许为空）
+    feedback = models.TextField(blank=True, null=True)
+
+
 
     def __str__(self):
         return f"{self.name} - {self.get_service_type_display()}"
