@@ -1,13 +1,25 @@
-from django.shortcuts import render
-from .models import Event
+# ------------------------------------
+# 📦 通用导入
+# ------------------------------------
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Event, Registration, Manuscript
+from .forms import RegistrationForm, ManuscriptForm
 
+# ------------------------------------
+# 📅 赛事模块：展示赛事列表 + 报名
+# ------------------------------------
+
+# 展示所有赛事
 def event_list(request):
     events = Event.objects.all().order_by('-date')
     return render(request, 'events/event_list.html', {'events': events})
 
-from django.shortcuts import render, redirect
-from .forms import RegistrationForm
+# 赛事详情页
+def event_detail(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    return render(request, 'events/event_detail.html', {'event': event})
 
+# 报名任意赛事（通用）
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
@@ -16,21 +28,9 @@ def register(request):
             return redirect('registration_success')
     else:
         form = RegistrationForm()
-    
     return render(request, 'events/register.html', {'form': form})
 
-def registration_success(request):
-    return render(request, 'events/success.html')
-
-#赛事详情视图函数
-from django.shortcuts import get_object_or_404
-from .models import Event
-
-def event_detail(request, event_id):
-    event = get_object_or_404(Event, pk=event_id)
-    return render(request, 'events/event_detail.html', {'event': event})
-
-#赛事专属报名视图
+# 报名指定赛事
 def register_specific(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
 
@@ -48,60 +48,57 @@ def register_specific(request, event_id):
 
     return render(request, 'events/register.html', {'form': form, 'event': event})
 
-#赛事报名成功视图
+# 报名成功页
 def registration_success(request):
     return render(request, 'events/success.html', {'message': "你已成功报名！"})
 
-#添加 “查看我的报名” 视图
-from .models import Registration
+# ------------------------------------
+# 📨 用户查询模块：我的赛事报名 / 我的稿件
+# ------------------------------------
 
+# 查看我的赛事报名
 def my_registrations(request):
     email = request.GET.get('email')  # 通过 URL 获取邮箱
-    registrations = []
-
-    if email:
-        registrations = Registration.objects.filter(email=email).order_by('-registered_at')
-
+    registrations = Registration.objects.filter(email=email).order_by('-registered_at') if email else []
     return render(request, 'events/my_registrations.html', {
         'registrations': registrations,
         'email': email
     })
 
-# 👇 处理用户上传辩论稿件的视图：显示表单、接收数据、存入数据库、跳转成功页
-from django.shortcuts import render, redirect
-from .forms import ManuscriptForm
-
-def upload_manuscript(request):
-    if request.method == 'POST':
-        # 表单中包含上传的文件，所以要传 request.FILES
-        form = ManuscriptForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()  # 保存到数据库
-            return redirect('manuscript_success')  # 跳转成功页面
-    else:
-        form = ManuscriptForm()
-    
-    return render(request, 'events/upload_manuscript.html', {'form': form})
-
-# ✅ 上传成功提示页
-def manuscript_success(request):
-    return render(request, 'events/manuscript_success.html')
-
-# 👇 用户查看我的稿件视图：显示表单、接收邮箱、查询数据库、返回结果
-from .models import Manuscript
-
-# 👤 用户查看我的稿件视图
+# 查看我的上传稿件
 def my_manuscripts(request):
-    manuscripts = None
     email = ''
-
+    manuscripts = None
     if request.method == 'POST':
         email = request.POST.get('email')
         manuscripts = Manuscript.objects.filter(email=email)
-
     return render(request, 'events/my_manuscripts.html', {
         'manuscripts': manuscripts,
         'email': email
     })
 
+# 查看我的个人信息
+# 这里可以根据需求添加用户信息的展示
+# 例如：用户的基本信息、报名记录等
+def my_dashboard(request):
+    return render(request, 'events/my_dashboard.html')
 
+
+# ------------------------------------
+# 📤 稿件上传模块
+# ------------------------------------
+
+# 上传辩论稿
+def upload_manuscript(request):
+    if request.method == 'POST':
+        form = ManuscriptForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('manuscript_success')
+    else:
+        form = ManuscriptForm()
+    return render(request, 'events/upload_manuscript.html', {'form': form})
+
+# 上传成功页
+def manuscript_success(request):
+    return render(request, 'events/manuscript_success.html')

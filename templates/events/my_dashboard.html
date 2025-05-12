@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的赛事中心</title>
+</head>
+<body>
+    <h1>👤 我的赛事中心</h1>
+
+    <p>你好，请选择要查看的内容：</p>
+
+    <ul>
+        <li><a href="{% url 'my_registrations' %}">📝 我的赛事报名记录</a></li>
+        <li><a href="{% url 'upload_manuscript' %}">📤 上传辩论稿</a></li>
+        <li><a href="{% url 'my_manuscripts' %}">📄 我的稿件记录</a></li>
+        <li><em>📬 我的订阅内容（开发中...）</em></li>
+        <li><em>📅 我的课程预约（开发中...）</em></li>
+    </ul>
+</body>
+</html>

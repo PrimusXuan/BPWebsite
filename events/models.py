@@ -26,6 +26,13 @@ class Registration(models.Model):
     email = models.EmailField()
     registered_at = models.DateTimeField(auto_now_add=True)
 
+    # 报名状态
+    is_confirmed = models.BooleanField(default=False)
+
+    # 教练备注 / 审核意见
+    note = models.TextField(blank=True, null=True)
+
+
     def __str__(self):
         return f"{self.name} - {self.event.title}"
 
